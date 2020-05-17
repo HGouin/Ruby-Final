@@ -7,4 +7,6 @@ require 'io/console'
 
 require_relative "./meals/cli"
 require_relative "./meals/api"
-require_relative "./meals/dinner"
+require_relative "./meals/meal"
+require_relative "./meals/ingredient"
+require_relative "./meals/instruction"

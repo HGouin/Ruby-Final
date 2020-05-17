@@ -9,79 +9,86 @@ class Cli
 
         while input != "exit"
             if input == 'list'
-                print_dinners(Dinner.all)
+                print_meals(Meal.all)
                 ##go ahead and list my dinners with this ingredient again
-            elsif input.to_i > 0 && input.to_i <= Dinner.all.length 
-                dinner = Dinner.all[input.to_i - 1]
-                Api.getIngredients(dinner)
-                Api.getAnalyzedInstructions(dinner)#user picks a dinner, go ahead and get the detail for that dinner
-                while input != 'x'
+            elsif input.to_i > 0 && input.to_i <= Meal.all.length 
+                meal = Meal.all[input.to_i - 1]
+                Api.getIngredients(meal)
+                Api.getAnalyzedInstructions(meal)#user picks a dinner, go ahead and get the detail for that dinner
+                while input != 'b'
                     puts "  "
-                    puts "Recipe: #{dinner.name}"
+                    puts "Recipe: #{meal.name}"
                     prompt_user_recipe
                     input = STDIN.getch
                     
-                    if input == 'x'
+                    if input == 'b'
                         break
                     elsif input == 'i'
-                        dinner.print_ingredients
+                        meal.print_ingredients
                     elsif input == 't'
                         step = 0
-                        puts "#{step+1}. #{dinner.analyzed_instructions[step]["step"]}"
-                        while input != 'x'
-                            prompt_user_instructions
-                            input = STDIN.getch
-                            if input == 'x'
-                                input = ''
-                                break
-                            elsif input == 'n'
-                                step -= 1
-                                step = 0 if step < 0
-                            elsif input == 'm'
-                                step +=1
-                                if step == dinner.analyzed_instructions.length
-                                  step = dinner.analyzed_instructions.length - 1
-                                  puts "Already on the last step"
+                        if meal.instructions.length == 0
+                            puts "No instructions found for that meal"
+                        else 
+                            meal.print_instruction(step)
+                            while input != 'b'
+                                prompt_user_instructions
+                                input = STDIN.getch
+                                if input == 'b'
+                                    input = ''
+                                    break
+                                elsif input == 'n'
+                                    step -= 1
+                                    step = 0 if step < 0
+                                elsif input == 'm'
+                                    step +=1
+                                    if step == meal.instructions.length
+                                    step = meal.instructions.length - 1
+                                    puts "Already on the last step"
+                                    end
                                 end
+                                meal.print_instruction(step)
                             end
-                            puts "#{step+1}. #{dinner.analyzed_instructions[step]["step"]}"
                         end
                     end
                 end
             elsif input == "ingredient"
                 #elsif #user picks another dinner
-                puts "Enter a main ingredient to see dinners made with that ingredient"
+                puts "Enter a main ingredient to see meals made with that ingredient"
                 puts "  "
-                Dinner.clear
+                Meal.clear
                 @main_ingredient = gets.strip.downcase
-                Api.get_dinners(@main_ingredient)
+                Api.get_meals(@main_ingredient)
                 input = 'list'
                 next
             else 
                 puts "I do not understand, please try again"
-                binding.pry
+            end
+            if input == 'b'
+                input = "list"
+                next
             end
             prompt_user
             input = gets.strip.downcase
         end
         puts"  "
-        puts "Thank you for using my app, hope your dinner is delicious!"
+        puts "Thank you for using my app, hope your meal is delicious!"
 
         #goal go to api and ask for dinners with that ingredient and the api will return data for me and I will use it to display more info for the user
     end
-    def print_dinners(dinners)
+    def print_meals(meals)
         puts "  "
-        puts "Here are the dinners made with #{@main_ingredient}:"
-        dinners.each.with_index(1) do |dinner, index|
+        puts "Here are the meals made with #{@main_ingredient}:"
+        meals.each.with_index(1) do |meal, index|
         #can specify a starting point
-            puts "#{index}. #{dinner.name}"
+            puts "#{index}. #{meal.name}"
         end
         puts "  "
     end
 
     def prompt_user
         puts "  "
-        puts "select a number to see the instructions for a dinner"
+        puts "select a number to view the recipe for that meal"
         puts "type 'list' to see the list again"
         puts "type 'ingredient' to select a new ingredient"
         puts "type 'exit' to exit"
@@ -92,7 +99,7 @@ class Cli
         puts "  "
         puts "press 'i' to see all ingredients"
         puts "press 't' to go to instructions"
-        puts "press 'x' to exit"
+        puts "press 'b' to go back"
         puts "  "
     end
 
@@ -100,7 +107,7 @@ class Cli
         puts "  "
         puts "press 'n' to go to previous step"
         puts "press 'm' to go to next step"
-        puts "press 'x' to exit"
+        puts "press 'b' to go back"
         puts "  "
     end
 
