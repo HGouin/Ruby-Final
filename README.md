@@ -38,3 +38,5 @@ chmod +x bin/meals
 - Press 'm' to go to the next instruction, press 'n' to go to the previous instruction, press 'b' to go back to the meal options
 
 I hope you enjoy your meal!
+
+[LICENSE](LICENSE.txt)
