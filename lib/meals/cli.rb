@@ -88,26 +88,26 @@ class Cli
 
     def prompt_user
         puts "  "
-        puts "select a number to view the recipe for that meal"
-        puts "type 'list' to see the list again"
-        puts "type 'ingredient' to select a new ingredient"
-        puts "type 'exit' to exit"
+        puts "Enter a number to view the recipe for that meal"
+        puts "Enter 'list' to see the list again"
+        puts "Enter 'ingredient' to select a new ingredient"
+        puts "Enter 'exit' to exit"
         puts "  "
     end
 
     def prompt_user_recipe
         puts "  "
-        puts "press 'i' to see all ingredients"
-        puts "press 't' to go to instructions"
-        puts "press 'b' to go back"
+        puts "Press 'i' to see all ingredients"
+        puts "Press 't' to go to instructions"
+        puts "Press 'b' to go back"
         puts "  "
     end
 
     def prompt_user_instructions
         puts "  "
-        puts "press 'n' to go to previous step"
-        puts "press 'm' to go to next step"
-        puts "press 'b' to go back"
+        puts "Press 'n' to go to previous step"
+        puts "Press 'm' to go to next step"
+        puts "Press 'b' to go back"
         puts "  "
     end
 
