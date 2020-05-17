@@ -40,3 +40,5 @@ chmod +x bin/meals
 I hope you enjoy your meal!
 
 [LICENSE](LICENSE.txt)
+
+[Contribution Guide](CONTRIBUTING.md)
